@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Menu | MMM</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <span class="material-symbols-rounded">restaurant</span>
+                    <h2>MMM</h2>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#menu" class="nav-item active"><span class="material-symbols-rounded">menu_book</span>Menú</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-header">
+                <div class="header-left">
+                    <h1 id="page-title">Menú</h1>
+                </div>
+            </header>
+
+            <div class="content-area">
+                <!-- Menu Section -->
+                <section id="menu" class="content-section active">
+                    <div class="menu-header">
+                        <h2>Gestión del Menú</h2>
+                        <p>Administra las categorías y productos de tu restaurante</p>
+                    </div>
+                    
+                    <div class="menu-tabs">
+                        <button class="menu-tab active" data-tab="categorias">Categorías</button>
+                        <button class="menu-tab" data-tab="productos">Productos</button>
+                        <button class="menu-tab" data-tab="destacados">Destacados</button>
+                    </div>
+                    
+                    <div class="menu-content">
+                        <!-- Categorías Tab -->
+                        <div id="categorias" class="menu-panel active">
+                            <div class="panel-header">
+                                <h3>Gestión de Categorías</h3>
+                                <button class="btn btn-primary" id="add-category-btn">
+                                    <span class="material-symbols-rounded">add</span>
+                                    Nueva Categoría
+                                </button>
+                            </div>
+                            
+                            <div class="categories-list" id="categories-list">
+                                <!-- Las categorías se cargarán dinámicamente aquí -->
+                            </div>
+                        </div>
+                        
+                        <!-- Productos Tab -->
+                        <div id="productos" class="menu-panel">
+                            <div class="panel-header">
+                                <h3>Gestión de Productos</h3>
+                                <button class="btn btn-primary" id="add-product-btn">
+                                    <span class="material-symbols-rounded">add</span>
+                                    Nuevo Producto
+                                </button>
+                            </div>
+                            
+                            <div class="products-filters">
+                                <div class="filter-group">
+                                    <label>Categoría:</label>
+                                    <select id="category-filter">
+                                        <option value="">Todas las categorías</option>
+                                    </select>
+                                </div>
+                                <div class="filter-group">
+                                    <label>Estado:</label>
+                                    <select id="status-filter">
+                                        <option value="">Todos los estados</option>
+                                        <option value="disponible">Disponible</option>
+                                        <option value="no_disponible">No disponible</option>
+                                    </select>
+                                </div>
+                                <div class="filter-group">
+                                    <label>Ordenar por:</label>
+                                    <select id="sort-filter">
+                                        <option value="nombre">Nombre</option>
+                                        <option value="precio">Precio</option>
+                                        <option value="orden">Orden</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="products-list" id="products-list">
+                                <!-- Los productos se cargarán dinámicamente aquí -->
+                            </div>
+                        </div>
+                        
+                        <!-- Destacados Tab -->
+                        <div id="destacados" class="menu-panel">
+                            <div class="panel-header">
+                                <h3>Productos Destacados</h3>
+                                <p>Gestiona los productos que aparecen destacados en el menú digital</p>
+                            </div>
+                            
+                            <div class="featured-products" id="featured-products">
+                                <!-- Los productos destacados se cargarán dinámicamente aquí -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MMM Pizza - Carta Online</title>
+    <meta name="description" content="Descubre nuestro delicioso menú de pizzas artesanales. Delivery y Take Away disponible.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+    <link rel="stylesheet" href="carta-online.css">
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+</head>
+<body>
+    <!-- Header con información del restaurante -->
+    <header class="restaurant-header">
+        <div class="header-banner">
+            <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Banner del restaurante" class="banner-image">
+            <div class="header-overlay">
+                <div class="header-content">
+                    <div class="restaurant-logo">
+                        <span class="material-symbols-rounded">restaurant</span>
+                    </div>
+                    <h1 class="restaurant-name">MMM Pizza</h1>
+                    <p class="restaurant-subtitle">Pizza Artesanal</p>
+                    <div class="delivery-options">
+                        <button class="delivery-btn active" data-type="delivery">
+                            <span class="material-symbols-rounded">delivery_dining</span>
+                            Delivery
+                        </button>
+                        <button class="delivery-btn" data-type="takeaway">
+                            <span class="material-symbols-rounded">store</span>
+                            Retirar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Información de horarios y delivery -->
+        <div class="info-bar">
+            <div class="info-container">
+                <div class="delivery-info">
+                    <h3>Recibir pedido</h3>
+                    <div class="delivery-time">
+                        <button class="time-option active">Lo más pronto</button>
+                        <button class="time-option">Programar entrega</button>
+                    </div>
+                </div>
+                <div class="restaurant-status">
+                    <span class="status-indicator open"></span>
+                    <span class="status-text">Abierto hasta 23:00</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navegación de categorías (sticky) -->
+    <nav class="categories-nav" id="categories-nav">
+        <div class="nav-container">
+            <div class="categories-scroll">
+                <!-- Se llenarán dinámicamente -->
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido principal del menú -->
+    <main class="menu-content">
+        <div class="menu-container">
+            <!-- Las categorías y productos se cargarán aquí dinámicamente -->
+        </div>
+    </main>
+
+    <!-- Carrito flotante -->
+    <div class="cart-floating" id="cart-floating" style="display: none;">
+        <div class="cart-summary">
+            <div class="cart-icon">
+                <span class="material-symbols-rounded">shopping_cart</span>
+                <span class="cart-count" id="cart-count">0</span>
+            </div>
+            <div class="cart-total">
+                <span>Total: $<span id="cart-total">0</span></span>
+            </div>
+            <button class="view-cart-btn" onclick="abrirCarrito()">Ver Carrito</button>
+        </div>
+    </div>
+
+    <!-- Modal del carrito -->
+    <div class="cart-modal" id="cart-modal" style="display: none;">
+        <div class="cart-overlay" onclick="cerrarCarrito()"></div>
+        <div class="cart-content">
+            <div class="cart-header">
+                <h3>Tu Pedido</h3>
+                <button class="close-cart" onclick="cerrarCarrito()">
+                    <span class="material-symbols-rounded">close</span>
+                </button>
+            </div>
+            
+            <div class="cart-items" id="cart-items">
+                <!-- Items del carrito se cargarán aquí -->
+            </div>
+            
+            <div class="cart-footer">
+                <div class="cart-total-display">
+                    <strong>Total: $<span id="cart-total-display">0</span></strong>
+                </div>
+                <button class="checkout-btn" onclick="procederAlPago()">
+                    Realizar Pedido
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de producto -->
+    <div class="product-modal" id="product-modal" style="display: none;">
+        <div class="modal-overlay" onclick="cerrarModalProducto()"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close-modal" onclick="cerrarModalProducto()">
+                    <span class="material-symbols-rounded">close</span>
+                </button>
+            </div>
+            
+            <div class="product-details" id="product-details">
+                <!-- Detalles del producto se cargarán aquí -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading spinner -->
+    <div class="loading-spinner" id="loading-spinner">
+        <div class="spinner"></div>
+        <p>Cargando menú...</p>
+    </div>
+
+    <script src="carta-online.js"></script>
+</body>
+</html>

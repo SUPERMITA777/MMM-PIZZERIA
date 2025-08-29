@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MMM | Menú Digital</title>
+    <meta name="description" content="MMM - Menú digital del Restaurante MMM. Ordena online y disfruta de la mejor gastronomía.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+    <link rel="stylesheet" href="cliente-styles.css">
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="image-placeholders.js"></script>
+    <script src="supabase-config.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="main-header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <span class="material-symbols-rounded">restaurant</span>
+                    <h1>MMM</h1>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-outline" id="location-btn">
+                        <span class="material-symbols-rounded">location_on</span>
+                        <span>Seleccionar ubicación</span>
+                    </button>
+                    <button class="btn btn-primary" id="cart-btn">
+                        <span class="material-symbols-rounded">shopping_cart</span>
+                        <span id="cart-count">0</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Hero Section -->
+            <section class="hero-section">
+                <div class="hero-content">
+                    <h2>Bienvenido a MMM</h2>
+                    <p>Descubre nuestra deliciosa gastronomía internacional</p>
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <span class="material-symbols-rounded">schedule</span>
+                            <span>Entrega en 45 min</span>
+                        </div>
+                        <div class="stat">
+                            <span class="material-symbols-rounded">local_shipping</span>
+                            <span>Envío gratis desde $50</span>
+                        </div>
+                        <div class="stat">
+                            <span class="material-symbols-rounded">star</span>
+                            <span>4.8 ★ (150+ reseñas)</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Categories Navigation -->
+            <section class="categories-section">
+                <div class="categories-nav">
+                    <button class="category-btn active" data-category="all">Todos</button>
+                    <button class="category-btn" data-category="entradas">Entradas</button>
+                    <button class="category-btn" data-category="principales">Platos Principales</button>
+                    <button class="category-btn" data-category="postres">Postres</button>
+                    <button class="category-btn" data-category="bebidas">Bebidas</button>
+                </div>
+            </section>
+
+            <!-- Menu Items -->
+            <section class="menu-section">
+                <div class="menu-grid">
+                    <!-- Entradas -->
+                    <div class="menu-item" data-category="entradas">
+                        <div class="item-image">
+                            <img src="https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=400&h=300&fit=crop" alt="Ensalada César">
+                        </div>
+                        <div class="item-content">
+                            <h3>Ensalada César</h3>
+                            <p>Lechuga romana, crutones, parmesano y aderezo César</p>
+                            <div class="item-footer">
+                                <span class="price">$12.50</span>
+                                <button class="btn btn-primary add-to-cart" data-item="Ensalada César" data-price="12.50">
+                                    <span class="material-symbols-rounded">add</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-item" data-category="entradas">
+                        <div class="item-image">
+                            <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400&h=300&fit=crop" alt="Bruschetta">
+                        </div>
+                        <div class="item-content">
+                            <h3>Bruschetta</h3>
+                            <p>Pan tostado con tomate, albahaca y mozzarella</p>
+                            <div class="item-footer">
+                                <span class="price">$8.90</span>
+                                <button class="btn btn-primary add-to-cart" data-item="Bruschetta" data-price="8.90">
+                                    <span class="material-symbols-rounded">add</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Platos Principales -->
+                    <div class="menu-item" data-category="principales">
+                        <div class="item-image">
+                            <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400&h=300&fit=crop" alt="Pasta Carbonara">
+                        </div>
+                        <div class="item-content">
+                            <h3>Pasta Carbonara</h3>
+                            <p>Espagueti con huevo, panceta y queso parmesano</p>
+                            <div class="item-footer">
+                                <span class="price">$18.50</span>
+                                <button class="btn btn-primary add-to-cart" data-item="Pasta Carbonara" data-price="18.50">
+                                    <span class="material-symbols-rounded">add</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-item" data-category="principales">
+                        <div class="item-image">
+                            <img src="https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=400&h=300&fit=crop" alt="Bife de Chorizo">
+                        </div>
+                        <div class="item-content">
+                            <h3>Bife de Chorizo</h3>
+                            <p>Bife de chorizo a la parrilla con papas rústicas</p>
+                            <div class="item-footer">
+                                <span class="price">$25.90</span>
+                                <button class="btn btn-primary add-to-cart" data-item="Bife de Chorizo" data-price="25.90">
+                                    <span class="material-symbols-rounded">add</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Postres -->
+                    <div class="menu-item" data-category="postres">
+                        <div class="item-image">
+                            <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400&h=300&fit=crop" alt="Tiramisú">
+                        </div>
+                        <div class="item-content">
+                            <h3>Tiramisú</h3>
+                            <p>Clásico postre italiano con café y mascarpone</p>
+                            <div class="item-footer">
+                                <span class="price">$9.50</span>
+                                <button class="btn btn-primary add-to-cart" data-item="Tiramisú" data-price="9.50">
+                                    <span class="material-symbols-rounded">add</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bebidas -->
+                    <div class="menu-item" data-category="bebidas">
+                        <div class="item-image">
+                            <img src="https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=400&h=300&fit=crop" alt="Limonada Natural">
+                        </div>
+                        <div class="item-content">
+                            <h3>Limonada Natural</h3>
+                            <p>Limonada fresca con menta y jengibre</p>
+                            <div class="item-footer">
+                                <span class="price">$4.50</span>
+                                <button class="btn btn-primary add-to-cart" data-item="Limonada Natural" data-price="4.50">
+                                    <span class="material-symbols-rounded">add</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Cart Sidebar -->
+        <aside class="cart-sidebar" id="cart-sidebar">
+            <div class="cart-header">
+                <h3>Tu Pedido</h3>
+                <button class="close-cart" id="close-cart">
+                    <span class="material-symbols-rounded">close</span>
+                </button>
+            </div>
+            
+            <div class="cart-items" id="cart-items">
+                <!-- Cart items will be dynamically added here -->
+            </div>
+            
+            <div class="cart-summary">
+                <div class="subtotal">
+                    <span>Subtotal:</span>
+                    <span id="subtotal">$0.00</span>
+                </div>
+                <div class="delivery-fee">
+                    <span>Costo de envío:</span>
+                    <span id="delivery-fee">$3.50</span>
+                </div>
+                <div class="total">
+                    <span>Total:</span>
+                    <span id="total">$3.50</span>
+                </div>
+            </div>
+            
+            <div class="cart-actions">
+                <button class="btn btn-primary btn-full" id="checkout-btn">
+                    Proceder al Pago
+                </button>
+            </div>
+        </aside>
+
+        <!-- Checkout Modal -->
+        <div class="modal-overlay" id="checkout-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Completar Pedido</h3>
+                    <button class="close-modal" id="close-checkout">
+                        <span class="material-symbols-rounded">close</span>
+                    </button>
+                </div>
+                
+                <div class="checkout-form">
+                    <div class="form-section">
+                        <h4>Información de Contacto</h4>
+                        <div class="form-group">
+                            <label>Nombre completo</label>
+                            <input type="text" id="customer-name" placeholder="Tu nombre completo">
+                        </div>
+                        <div class="form-group">
+                            <label>Teléfono</label>
+                            <input type="tel" id="customer-phone" placeholder="Tu número de teléfono">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="customer-email" placeholder="Tu email">
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h4>Dirección de Entrega</h4>
+                        <div class="form-group">
+                            <label>Dirección</label>
+                            <input type="text" id="delivery-address" placeholder="Dirección completa">
+                        </div>
+                        <div class="form-group">
+                            <label>Ciudad</label>
+                            <input type="text" id="delivery-city" placeholder="Ciudad">
+                        </div>
+                        <div class="form-group">
+                            <label>Código Postal</label>
+                            <input type="text" id="delivery-zip" placeholder="Código postal">
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h4>Método de Pago</h4>
+                        <div class="payment-methods">
+                            <label class="payment-method">
+                                <input type="radio" name="payment" value="efectivo" checked>
+                                <span class="checkmark"></span>
+                                Efectivo
+                            </label>
+                            <label class="payment-method">
+                                <input type="radio" name="payment" value="tarjeta">
+                                <span class="checkmark"></span>
+                                Tarjeta
+                            </label>
+                            <label class="payment-method">
+                                <input type="radio" name="payment" value="transferencia">
+                                <span class="checkmark"></span>
+                                Transferencia
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h4>Resumen del Pedido</h4>
+                        <div class="order-summary" id="order-summary">
+                            <!-- Order summary will be populated here -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-actions">
+                    <button class="btn btn-secondary" id="cancel-checkout">Cancelar</button>
+                    <button class="btn btn-primary" id="confirm-order">Confirmar Pedido</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Modal -->
+        <div class="modal-overlay" id="success-modal">
+            <div class="modal-content success-modal">
+                <div class="success-icon">
+                    <span class="material-symbols-rounded">check_circle</span>
+                </div>
+                <h3>¡Pedido Confirmado!</h3>
+                <p>Tu pedido ha sido recibido y está siendo preparado.</p>
+                <div class="order-details">
+                    <p><strong>Número de pedido:</strong> <span id="order-number">#12345</span></p>
+                    <p><strong>Tiempo estimado:</strong> 45 minutos</p>
+                </div>
+                <button class="btn btn-primary" id="close-success">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="cliente-script.js"></script>
+</body>
+</html>

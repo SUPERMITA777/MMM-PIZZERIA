@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  # Cliente PostgreSQL para conexión a Supabase
+  postgres-client:
+    image: postgres:15
+    container_name: supabase-client
+    environment:
+      PGHOST: db.cwulvffuheotxzpocxla.supabase.co
+      PGPORT: 5432
+      PGDATABASE: postgres
+      PGUSER: postgres
+      PGPASSWORD: SoleyEma2711
+      PGSSLMODE: require
+    volumes:
+      - .:/workspace
+    working_dir: /workspace
+    command: tail -f /dev/null  # Mantener contenedor corriendo
+    networks:
+      - supabase-net
+
+  # Cliente curl para API REST
+  api-client:
+    image: curlimages/curl
+    container_name: supabase-api-client
+    volumes:
+      - .:/workspace
+    working_dir: /workspace
+    command: tail -f /dev/null
+    networks:
+      - supabase-net
+
+networks:
+  supabase-net:
+    driver: bridge

@@ -1,0 +1,35 @@
+{
+  "name": "mmm-pizzeria",
+  "version": "1.0.0",
+  "description": "Sistema de gestión de menú y carta online para MMM Pizzería",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx http-server -p 3000 -c-1",
+    "start": "npx http-server -p 8080 -c-1",
+    "build": "echo 'No build step required for static site'",
+    "setup": "node create-bucket.js"
+  },
+  "keywords": [
+    "restaurant",
+    "menu",
+    "pizzeria",
+    "supabase",
+    "javascript"
+  ],
+  "author": "MMM Pizzería",
+  "license": "MIT",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SUPERMITA777/MMM-PIZZERIA.git"
+  },
+  "homepage": "https://github.com/SUPERMITA777/MMM-PIZZERIA#readme"
+}

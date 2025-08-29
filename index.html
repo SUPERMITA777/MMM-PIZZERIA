@@ -1,0 +1,1706 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MMM | Administrador</title>
+    <meta name="description" content="MMM es un sistema moderno y vanguardista que resuelve el Ecommerce, Marketing y Logística de gastronómicos a través de un potente menú digital.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="image-placeholders.js"></script>
+    <script src="supabase-config.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <span class="material-symbols-rounded">restaurant</span>
+                    <h2>MMM</h2>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#dashboard" class="nav-item active"><span class="material-symbols-rounded">dashboard</span>Dashboard</a></li>
+                    <li><a href="#configuraciones" class="nav-item"><span class="material-symbols-rounded">settings</span>Configuraciones</a></li>
+                    <li><a href="#menu" class="nav-item"><span class="material-symbols-rounded">menu_book</span>Menú</a></li>
+                    <li><a href="#carta-online" class="nav-item"><span class="material-symbols-rounded">web</span>Carta Online</a></li>
+                    <li><a href="#pedidos" class="nav-item"><span class="material-symbols-rounded">receipt_long</span>Pedidos</a></li>
+                    <li><a href="#cajas" class="nav-item"><span class="material-symbols-rounded">point_of_sale</span>Cajas</a></li>
+                    <li><a href="#reportes" class="nav-item"><span class="material-symbols-rounded">analytics</span>Reportes</a></li>
+                    <li><a href="#descuentos" class="nav-item"><span class="material-symbols-rounded">local_offer</span>Descuentos</a></li>
+                    <li><a href="#delivery" class="nav-item"><span class="material-symbols-rounded">delivery_dining</span>Delivery</a></li>
+                    <li><a href="#marketing" class="nav-item"><span class="material-symbols-rounded">campaign</span>Marketing</a></li>
+                    <li><a href="#logistica" class="nav-item"><span class="material-symbols-rounded">local_shipping</span>Logística</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-header">
+                <div class="header-left">
+                    <button class="menu-toggle">
+                        <span class="material-symbols-rounded">menu</span>
+                    </button>
+                    <h1 id="page-title">Dashboard</h1>
+                </div>
+                <div class="header-right">
+                    <div class="user-menu">
+                        <span class="user-name">Emanuel Cotta</span>
+                        <span class="material-symbols-rounded">account_circle</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="content-area">
+                <!-- Dashboard Section -->
+                <section id="dashboard" class="content-section active">
+                    <div class="dashboard-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <span class="material-symbols-rounded">receipt_long</span>
+                            </div>
+                            <div class="stat-content">
+                                <h3>Pedidos Hoy</h3>
+                                <p class="stat-number">24</p>
+                                <span class="stat-change positive">+12% vs ayer</span>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <span class="material-symbols-rounded">attach_money</span>
+                            </div>
+                            <div class="stat-content">
+                                <h3>Ventas Hoy</h3>
+                                <p class="stat-number">$1,250</p>
+                                <span class="stat-change positive">+8% vs ayer</span>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <span class="material-symbols-rounded">delivery_dining</span>
+                            </div>
+                            <div class="stat-content">
+                                <h3>Deliveries</h3>
+                                <p class="stat-number">18</p>
+                                <span class="stat-change neutral">0% vs ayer</span>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <span class="material-symbols-rounded">people</span>
+                            </div>
+                            <div class="stat-content">
+                                <h3>Clientes Nuevos</h3>
+                                <p class="stat-number">7</p>
+                                <span class="stat-change positive">+3 vs ayer</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Configuraciones Section -->
+                <section id="configuraciones" class="content-section">
+                    <div class="restaurant-header">
+                        <h1>MMM Pizza</h1>
+                        <div class="restaurant-actions">
+                            <a href="#" class="action-link">Editar</a>
+                            <a href="#" class="action-link">Obtener QR</a>
+                        </div>
+                    </div>
+                    
+                    <div class="config-tabs">
+                        <button class="config-tab active" data-tab="modalidades">Modalidades</button>
+                        <button class="config-tab" data-tab="pedidos">Pedidos</button>
+                        <button class="config-tab" data-tab="horarios">Horarios</button>
+                        <button class="config-tab" data-tab="metodos-pago">Métodos de pago</button>
+                        <button class="config-tab" data-tab="zonas-entrega">Zonas de entrega</button>
+                        <button class="config-tab" data-tab="redes-sociales">Redes sociales</button>
+                        <button class="config-tab" data-tab="marketing">Marketing</button>
+                    </div>
+                    
+                    <div class="config-content">
+                        <!-- Modalidades Tab -->
+                        <div id="modalidades" class="config-panel active">
+                            <div class="config-section">
+                                <h3>Modalidades de entrega:</h3>
+                                <div class="delivery-options">
+                                    <label class="delivery-option">
+                                        <input type="checkbox" checked>
+                                        <span class="checkmark"></span>
+                                        <span class="option-text">Delivery</span>
+                                    </label>
+                                    <label class="delivery-option">
+                                        <input type="checkbox" checked>
+                                        <span class="checkmark"></span>
+                                        <span class="option-text">Take away</span>
+                                    </label>
+                                    <label class="delivery-option">
+                                        <input type="checkbox">
+                                        <span class="checkmark"></span>
+                                        <span class="option-text">Salón</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Pedidos Tab -->
+                        <div id="pedidos" class="config-panel">
+                            <div class="config-section">
+                                <h3>Configuración de Pedidos</h3>
+                                <div class="order-settings">
+                                    <label class="setting-option">
+                                        <input type="checkbox" checked>
+                                        <span class="checkmark"></span>
+                                        <span class="option-text">Confirmación automática de pedidos</span>
+                                    </label>
+                                    <label class="setting-option">
+                                        <input type="checkbox">
+                                        <span class="checkmark"></span>
+                                        <span class="option-text">Notificaciones por WhatsApp</span>
+                                    </label>
+                                    <label class="setting-option">
+                                        <input type="checkbox" checked>
+                                        <span class="checkmark"></span>
+                                        <span class="option-text">Mostrar tiempo estimado de entrega</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Horarios Tab -->
+                        <div id="horarios" class="config-panel">
+                            <div class="config-section">
+                                <h3>Horarios de Atención</h3>
+                                <div class="schedule-settings">
+                                    <div class="schedule-day">
+                                        <label class="day-label">Lunes</label>
+                                        <div class="time-inputs">
+                                            <input type="time" value="08:00">
+                                            <span>a</span>
+                                            <input type="time" value="23:00">
+                                        </div>
+                                        <label class="day-toggle">
+                                            <input type="checkbox" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="schedule-day">
+                                        <label class="day-label">Martes</label>
+                                        <div class="time-inputs">
+                                            <input type="time" value="08:00">
+                                            <span>a</span>
+                                            <input type="time" value="23:00">
+                                        </div>
+                                        <label class="day-toggle">
+                                            <input type="checkbox" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="schedule-day">
+                                        <label class="day-label">Miércoles</label>
+                                        <div class="time-inputs">
+                                            <input type="time" value="08:00">
+                                            <span>a</span>
+                                            <input type="time" value="23:00">
+                                        </div>
+                                        <label class="day-toggle">
+                                            <input type="checkbox" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="schedule-day">
+                                        <label class="day-label">Jueves</label>
+                                        <div class="time-inputs">
+                                            <input type="time" value="08:00">
+                                            <span>a</span>
+                                            <input type="time" value="23:00">
+                                        </div>
+                                        <label class="day-toggle">
+                                            <input type="checkbox" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="schedule-day">
+                                        <label class="day-label">Viernes</label>
+                                        <div class="time-inputs">
+                                            <input type="time" value="08:00">
+                                            <span>a</span>
+                                            <input type="time" value="23:00">
+                                        </div>
+                                        <label class="day-toggle">
+                                            <input type="checkbox" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="schedule-day">
+                                        <label class="day-label">Sábado</label>
+                                        <div class="time-inputs">
+                                            <input type="time" value="08:00">
+                                            <span>a</span>
+                                            <input type="time" value="23:00">
+                                        </div>
+                                        <label class="day-toggle">
+                                            <input type="checkbox" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="schedule-day">
+                                        <label class="day-label">Domingo</label>
+                                        <div class="time-inputs">
+                                            <input type="time" value="08:00">
+                                            <span>a</span>
+                                            <input type="time" value="23:00">
+                                        </div>
+                                        <label class="day-toggle">
+                                            <input type="checkbox" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Métodos de Pago Tab -->
+                        <div id="metodos-pago" class="config-panel">
+                            <div class="config-section">
+                                <h3>Métodos de Pago Aceptados</h3>
+                                <div class="payment-methods">
+                                    <label class="payment-option">
+                                        <input type="checkbox" checked>
+                                        <span class="checkmark"></span>
+                                        <span class="option-text">Efectivo</span>
+                                    </label>
+                                    <label class="payment-option">
+                                        <input type="checkbox" checked>
+                                        <span class="checkmark"></span>
+                                        <span class="option-text">Tarjeta de crédito</span>
+                                    </label>
+                                    <label class="payment-option">
+                                        <input type="checkbox" checked>
+                                        <span class="checkmark"></span>
+                                        <span class="option-text">Tarjeta de débito</span>
+                                    </label>
+                                    <label class="payment-option">
+                                        <input type="checkbox">
+                                        <span class="checkmark"></span>
+                                        <span class="option-text">Transferencia bancaria</span>
+                                    </label>
+                                    <label class="payment-option">
+                                        <input type="checkbox">
+                                        <span class="checkmark"></span>
+                                        <span class="option-text">Mercado Pago</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Zonas de Entrega Tab -->
+                        <div id="zonas-entrega" class="config-panel">
+                            <div class="config-section">
+                                <h3>Zonas de Entrega</h3>
+                                <div class="delivery-zones">
+                                    <div class="zone-item">
+                                        <div class="zone-info">
+                                            <h4>Zona Centro</h4>
+                                            <p>Radio de entrega: 2km</p>
+                                            <p>Costo de entrega: $200</p>
+                                        </div>
+                                        <div class="zone-actions">
+                                            <button class="btn btn-secondary btn-sm">Editar</button>
+                                            <button class="btn btn-danger btn-sm">Eliminar</button>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary">Agregar Nueva Zona</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Redes Sociales Tab -->
+                        <div id="redes-sociales" class="config-panel">
+                            <div class="config-section">
+                                <h3>Redes Sociales</h3>
+                                <div class="social-media">
+                                    <div class="social-input">
+                                        <label>Instagram</label>
+                                        <input type="url" placeholder="https://instagram.com/tu-restaurante">
+                                    </div>
+                                    <div class="social-input">
+                                        <label>Facebook</label>
+                                        <input type="url" placeholder="https://facebook.com/tu-restaurante">
+                                    </div>
+                                    <div class="social-input">
+                                        <label>WhatsApp</label>
+                                        <input type="tel" placeholder="+54 11 1234-5678">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Marketing Tab -->
+                        <div id="marketing" class="config-panel">
+                            <div class="config-section">
+                                <h3>Configuración de Marketing</h3>
+                                <div class="marketing-settings">
+                                    <label class="setting-option">
+                                        <input type="checkbox" checked>
+                                        <span class="checkmark"></span>
+                                        <span class="option-text">Newsletter semanal</span>
+                                    </label>
+                                    <label class="setting-option">
+                                        <input type="checkbox">
+                                        <span class="checkmark"></span>
+                                        <span class="option-text">Cupones de descuento</span>
+                                    </label>
+                                    <label class="setting-option">
+                                        <input type="checkbox" checked>
+                                        <span class="checkmark"></span>
+                                        <span class="option-text">Notificaciones push</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                        <!-- Delivery Tab -->
+                        <div id="delivery" class="config-panel">
+                            <form class="config-form">
+                                <div class="form-group">
+                                    <label>Radio de Entrega (km)</label>
+                                    <input type="number" value="5" min="1" max="50">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Costo de Envío Base</label>
+                                    <input type="number" value="3.50" step="0.50" min="0">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Tiempo Estimado de Entrega (minutos)</label>
+                                    <input type="number" value="45" min="15" max="120">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Horarios de Delivery</label>
+                                    <div class="time-range">
+                                        <input type="time" value="09:00">
+                                        <span>a</span>
+                                        <input type="time" value="22:00">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <!-- Marketing Tab -->
+                        <div id="marketing" class="config-panel">
+                            <div class="marketing-config">
+                                <div class="config-header">
+                                    <h3>Configuración de Marketing</h3>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Descuento por Primera Compra (%)</label>
+                                    <input type="number" value="10" min="0" max="50">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Programa de Fidelización</label>
+                                    <div class="checkbox-group">
+                                        <label class="checkbox">
+                                            <input type="checkbox" checked>
+                                            <span class="checkmark"></span>
+                                            Activar programa de puntos
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Puntos por Compra</label>
+                                    <input type="number" value="1" min="1" max="10">
+                                </div>
+                                
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Logística Tab -->
+                        <div id="logistica" class="config-panel">
+                            <form class="config-form">
+                                <div class="form-group">
+                                    <label>Capacidad de Cocina (pedidos simultáneos)</label>
+                                    <input type="number" value="15" min="5" max="50">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Tiempo de Preparación Promedio (minutos)</label>
+                                    <input type="number" value="25" min="10" max="60">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Stock Mínimo de Ingredientes</label>
+                                    <input type="number" value="10" min="1" max="100">
+                                </div>
+                                
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <!-- Pagos Tab -->
+                        <div id="pagos" class="config-panel">
+                            <div class="payment-config">
+                                <div class="config-header">
+                                    <h3>Métodos de Pago</h3>
+                                </div>
+                                
+                                <div class="payment-methods">
+                                    <div class="payment-method">
+                                        <label class="checkbox">
+                                            <input type="checkbox" checked>
+                                            <span class="checkmark"></span>
+                                            Efectivo
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="payment-method">
+                                        <label class="checkbox">
+                                            <input type="checkbox" checked>
+                                            <span class="checkmark"></span>
+                                            Tarjeta de Crédito/Débito
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="payment-method">
+                                        <label class="checkbox">
+                                            <input type="checkbox" checked>
+                                            <span class="checkmark"></span>
+                                            Transferencia Bancaria
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="payment-method">
+                                        <label class="checkbox">
+                                            <input type="checkbox">
+                                            <span class="checkmark"></span>
+                                            Mercado Pago
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Carta Online Section -->
+                <section id="carta-online" class="content-section">
+                    <div class="carta-online-header">
+                        <h2>Configuración de Carta Online</h2>
+                        <p>Configura y personaliza tu menú digital para clientes</p>
+                        <div class="carta-actions">
+                            <button class="btn btn-outline" onclick="previsualizarCarta()">
+                                <span class="material-symbols-rounded">visibility</span>
+                                Vista Previa
+                            </button>
+                            <button class="btn btn-primary" onclick="publicarCarta()">
+                                <span class="material-symbols-rounded">publish</span>
+                                Publicar Carta
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="carta-online-tabs">
+                        <button class="carta-tab active" data-tab="diseño">
+                            <span class="material-symbols-rounded">palette</span>
+                            Diseño y Estilo
+                        </button>
+                        <button class="carta-tab" data-tab="categorias">
+                            <span class="material-symbols-rounded">category</span>
+                            Categorías y Banners
+                        </button>
+                        <button class="carta-tab" data-tab="productos">
+                            <span class="material-symbols-rounded">restaurant</span>
+                            Layout de Productos
+                        </button>
+                        <button class="carta-tab" data-tab="configuracion">
+                            <span class="material-symbols-rounded">tune</span>
+                            Configuración General
+                        </button>
+                    </div>
+                    
+                    <div class="carta-online-content">
+                        <!-- Tab de Diseño y Estilo -->
+                        <div id="diseño" class="carta-panel active">
+                            <div class="design-section">
+                                <h3>Colores y Tipografía</h3>
+                                <div class="design-grid">
+                                    <div class="color-selector">
+                                        <label>Color primario:</label>
+                                        <input type="color" id="primary-color" value="#ff6b35">
+                                        <span class="color-preview" style="background: #ff6b35;"></span>
+                                    </div>
+                                    <div class="color-selector">
+                                        <label>Color secundario:</label>
+                                        <input type="color" id="secondary-color" value="#ff8a50">
+                                        <span class="color-preview" style="background: #ff8a50;"></span>
+                                    </div>
+                                    <div class="color-selector">
+                                        <label>Color de fondo:</label>
+                                        <input type="color" id="background-color" value="#f8f9fa">
+                                        <span class="color-preview" style="background: #f8f9fa;"></span>
+                                    </div>
+                                    <div class="font-selector">
+                                        <label>Tipografía:</label>
+                                        <select id="font-family">
+                                            <option value="Poppins">Poppins (Actual)</option>
+                                            <option value="Roboto">Roboto</option>
+                                            <option value="Open Sans">Open Sans</option>
+                                            <option value="Montserrat">Montserrat</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="design-section">
+                                <h3>Header de la Carta</h3>
+                                <div class="header-config">
+                                    <div class="form-group">
+                                        <label>Logo del restaurante:</label>
+                                        <div class="logo-upload">
+                                            <input type="file" id="logo-upload" accept="image/*" style="display: none;">
+                                            <button class="btn btn-outline" onclick="document.getElementById('logo-upload').click()">
+                                                <span class="material-symbols-rounded">upload</span>
+                                                Subir Logo
+                                            </button>
+                                            <div class="logo-preview" id="logo-preview" style="display: none;">
+                                                <img id="logo-img" src="" alt="Logo">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Imagen de banner:</label>
+                                        <div class="banner-upload">
+                                            <input type="file" id="banner-upload" accept="image/*" style="display: none;">
+                                            <button class="btn btn-outline" onclick="document.getElementById('banner-upload').click()">
+                                                <span class="material-symbols-rounded">upload</span>
+                                                Subir Banner
+                                            </button>
+                                            <div class="banner-preview" id="banner-preview" style="display: none;">
+                                                <img id="banner-img" src="" alt="Banner">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Tab de Categorías y Banners -->
+                        <div id="categorias" class="carta-panel">
+                            <div class="categories-config">
+                                <h3>Configuración de Categorías</h3>
+                                <div class="category-settings">
+                                    <div class="setting-group">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" id="show-category-banners" checked>
+                                            <span class="checkmark"></span>
+                                            Mostrar banners de categoría
+                                        </label>
+                                        <p class="setting-description">Los banners separan visualmente cada categoría en la carta</p>
+                                    </div>
+                                    
+                                    <div class="setting-group">
+                                        <label>Altura de banners:</label>
+                                        <select id="banner-height">
+                                            <option value="small">Pequeño (120px)</option>
+                                            <option value="medium" selected>Mediano (200px)</option>
+                                            <option value="large">Grande (280px)</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="setting-group">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" id="category-descriptions" checked>
+                                            <span class="checkmark"></span>
+                                            Mostrar descripciones de categoría
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="categories-list">
+                                    <h4>Categorías activas en la carta:</h4>
+                                    <div class="category-items" id="carta-categories-list">
+                                        <!-- Se llenarán dinámicamente -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Tab de Layout de Productos -->
+                        <div id="productos" class="carta-panel">
+                            <div class="products-layout">
+                                <h3>Diseño de Productos</h3>
+                                <div class="layout-settings">
+                                    <div class="setting-group">
+                                        <label>Posición de imagen:</label>
+                                        <div class="image-position-selector">
+                                            <label class="radio-option">
+                                                <input type="radio" name="image-position" value="right" checked>
+                                                <span class="radio-custom"></span>
+                                                <span class="option-text">Derecha (recomendado)</span>
+                                            </label>
+                                            <label class="radio-option">
+                                                <input type="radio" name="image-position" value="left">
+                                                <span class="radio-custom"></span>
+                                                <span class="option-text">Izquierda</span>
+                                            </label>
+                                            <label class="radio-option">
+                                                <input type="radio" name="image-position" value="top">
+                                                <span class="radio-custom"></span>
+                                                <span class="option-text">Arriba</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="setting-group">
+                                        <label>Tamaño de imagen:</label>
+                                        <select id="image-size">
+                                            <option value="small">Pequeño (80x80px)</option>
+                                            <option value="medium" selected>Mediano (120x120px)</option>
+                                            <option value="large">Grande (160x160px)</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="setting-group">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" id="show-prices" checked>
+                                            <span class="checkmark"></span>
+                                            Mostrar precios
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="setting-group">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" id="show-descriptions" checked>
+                                            <span class="checkmark"></span>
+                                            Mostrar descripciones
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="setting-group">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" id="highlight-featured">
+                                            <span class="checkmark"></span>
+                                            Destacar productos especiales
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Tab de Configuración General -->
+                        <div id="configuracion" class="carta-panel">
+                            <div class="general-config">
+                                <h3>Configuración General</h3>
+                                <div class="config-settings">
+                                    <div class="setting-group">
+                                        <label>URL de la carta:</label>
+                                        <div class="url-display">
+                                            <span class="base-url">https://carta.mmm.com/</span>
+                                            <input type="text" id="carta-slug" placeholder="mi-restaurante" value="mmm-pizza">
+                                            <button class="btn btn-outline btn-sm" onclick="copiarURL()">Copiar</button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="setting-group">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" id="enable-orders" checked>
+                                            <span class="checkmark"></span>
+                                            Habilitar pedidos online
+                                        </label>
+                                        <p class="setting-description">Los clientes podrán hacer pedidos directamente desde la carta</p>
+                                    </div>
+                                    
+                                    <div class="setting-group">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" id="show-availability">
+                                            <span class="checkmark"></span>
+                                            Mostrar disponibilidad en tiempo real
+                                        </label>
+                                        <p class="setting-description">Los productos no disponibles aparecerán deshabilitados</p>
+                                    </div>
+                                    
+                                    <div class="setting-group">
+                                        <label>Horarios de atención:</label>
+                                        <div class="hours-config">
+                                            <select id="opening-hours">
+                                                <option value="always">Siempre abierto</option>
+                                                <option value="business">Horario comercial</option>
+                                                <option value="custom" selected>Personalizado</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="setting-group">
+                                        <label>Información de contacto:</label>
+                                        <div class="contact-info">
+                                            <input type="tel" id="contact-phone" placeholder="Teléfono" value="+54 11 1234-5678">
+                                            <input type="text" id="contact-address" placeholder="Dirección" value="Av. Principal 123, Buenos Aires">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Menu Section -->
+                <section id="menu" class="content-section">
+                    <!-- Header con tabs de Delivery y Take Away -->
+                    <div class="menu-delivery-header">
+                        <div class="delivery-tabs">
+                            <button class="delivery-tab active" data-delivery="delivery">Delivery</button>
+                            <button class="delivery-tab" data-delivery="takeaway">Take Away</button>
+                        </div>
+                        <div class="menu-actions">
+                            <button class="btn btn-link">Exportar menú</button>
+                            <button class="btn btn-link">Importar menú</button>
+                            <button class="btn btn-link">Precios</button>
+                            <button class="btn btn-primary">Adicionales</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Layout de 3 columnas -->
+                    <div class="menu-three-columns">
+                        <!-- Columna 1: Categorías -->
+                        <div class="menu-column categories-column">
+                            <div class="column-header">
+                                <h3>Categorías</h3>
+                                <div class="header-actions">
+                                    <button class="btn btn-outline">Ordenar</button>
+                                    <button class="btn btn-dark" onclick="abrirModalCrearCategoria()">Crear</button>
+                                </div>
+                            </div>
+                            
+                            <div class="categories-container">
+                                <div class="category-item selected">PROMOS</div>
+                                <div class="category-item">PIZZA ESTILO NAPOLETANO</div>
+                                <div class="category-item">PIZZA ESTILO ROMANA</div>
+                                <div class="category-item">EMPANADAS</div>
+                                <div class="category-item">BEBIDAS</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Columna 2: Productos -->
+                        <div class="menu-column products-column">
+                            <div class="column-header">
+                                <h3>Productos</h3>
+                                <div class="header-actions">
+                                    <button class="btn btn-outline">Ordenar</button>
+                                    <button class="btn btn-dark" onclick="crearNuevoProducto()">Crear</button>
+                                </div>
+                            </div>
+                            
+                            <div class="products-container" id="products-container">
+                                <div class="product-item selected">2 Muzzas e/napo</div>
+                                <div class="product-item">2 Muzzas e/romanas</div>
+                                <div class="product-item">Promo estilos</div>
+                                <div class="product-item">Muzza + 6 empanadas</div>
+                                <div class="product-item">3 muzzas e/napo</div>
+                                <div class="product-item">3 muzzas e/romana</div>
+                                <div class="product-item">2 e/napo a elección</div>
+                                <div class="product-item">2 e/romana a elección</div>
+                                <div class="product-item">4 Muzzas e/napo</div>
+                                <div class="product-item">4 Muzzas e/romanas</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Columna 3: Crear producto -->
+                        <div class="menu-column edit-column">
+                            <div class="column-header">
+                                <h3>CREAR PRODUCTO</h3>
+                            </div>
+                            
+                            <div class="create-form-container">
+                                <form class="create-product-form" id="create-product-form">
+                                    <!-- Categoría dropdown -->
+                                    <div class="form-field">
+                                        <select class="form-dropdown" id="new-product-category" required>
+                                            <option value="">Categoría</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <!-- Nombre -->
+                                    <div class="form-field">
+                                        <input type="text" class="form-input" placeholder="Nombre" id="new-product-name" required>
+                                    </div>
+                                    
+                                    <!-- Nombre interno -->
+                                    <div class="form-field">
+                                        <input type="text" class="form-input" placeholder="Nombre interno" id="new-product-internal-name">
+                                    </div>
+                                    
+                                    <!-- Descripción -->
+                                    <div class="form-field">
+                                        <textarea class="form-textarea" placeholder="Descripción" id="new-product-description" maxlength="255"></textarea>
+                                        <div class="char-count"><span id="description-count">0</span> / 255</div>
+                                    </div>
+                                    
+                                    <!-- Precio venta -->
+                                    <div class="form-field price-field">
+                                        <input type="number" class="form-input price-input" placeholder="Precio venta" id="new-product-price" step="0.01" min="0" required>
+                                        <span class="currency-symbol">$</span>
+                                    </div>
+                                    
+                                    <!-- Precio costo -->
+                                    <div class="form-field">
+                                        <input type="number" class="form-input" placeholder="Precio costo" id="new-product-cost" step="0.01" min="0">
+                                    </div>
+                                    
+                                    <!-- Adicionales dropdown -->
+                                    <div class="form-field">
+                                        <select class="form-dropdown" id="new-product-adicionales" multiple>
+                                            <option disabled>Adicionales</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <!-- Tags -->
+                                    <div class="form-field">
+                                        <input type="text" class="form-input" placeholder="Tags (separados por comas)" id="new-product-tags">
+                                    </div>
+                                    
+                                    <!-- Disponible en -->
+                                    <div class="form-field">
+                                        <select class="form-dropdown" id="new-product-availability">
+                                            <option value="both" selected>Delivery, Take Away</option>
+                                            <option value="delivery">Solo Delivery</option>
+                                            <option value="takeaway">Solo Take Away</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <!-- Selección máxima por pedido -->
+                                    <div class="form-field">
+                                        <input type="number" class="form-input" placeholder="Selección máxima por pedido" id="new-product-max-selection" min="1" value="1">
+                                    </div>
+                                    
+                                    <!-- Checkboxes de configuración -->
+                                    <div class="form-field checkbox-group">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" id="new-product-visible" checked>
+                                            <span class="checkmark"></span>
+                                            Visible en menú
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="form-field checkbox-group">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" id="new-product-destacado">
+                                            <span class="checkmark"></span>
+                                            Producto destacado
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="form-field checkbox-group">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" id="new-product-disponible" checked>
+                                            <span class="checkmark"></span>
+                                            Producto disponible
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="form-field checkbox-group">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" id="new-product-sugerencia">
+                                            <span class="checkmark"></span>
+                                            Producto sugerencia
+                                        </label>
+                                    </div>
+                                    
+                                    <!-- Upload de imagen -->
+                                    <div class="form-field image-upload-field">
+                                        <label for="new-product-image" class="image-upload-label">
+                                            <div class="image-upload-area" id="new-product-image-upload">
+                                                <span class="material-symbols-rounded">add_photo_alternate</span>
+                                                <span class="upload-text">Subir imagen del producto</span>
+                                                <span class="upload-hint">PNG, JPG hasta 5MB</span>
+                                            </div>
+                                            <input type="file" id="new-product-image" accept="image/*" style="display: none;">
+                                        </label>
+                                        <div id="new-product-image-preview" class="image-preview" style="display: none;">
+                                            <img id="new-product-preview-img" src="" alt="Vista previa">
+                                            <button type="button" class="remove-image-btn" onclick="removeProductImage()">
+                                                <span class="material-symbols-rounded">close</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Botones de acción -->
+                                    <div class="form-actions">
+                                        <button type="button" class="btn btn-outline btn-cancel" onclick="limpiarFormularioProducto()">Limpiar</button>
+                                        <button type="submit" class="btn btn-primary btn-create">Crear Producto</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Modal Crear Categoría -->
+                    <div id="modal-crear-categoria" class="modal-overlay" style="display: none;">
+                        <div class="modal-content category-modal">
+                            <div class="modal-header">
+                                <h3>Crear categoría</h3>
+                                <button type="button" class="modal-close" onclick="cerrarModalCrearCategoria()">
+                                    <span class="material-symbols-rounded">close</span>
+                                </button>
+                            </div>
+                            
+                            <form class="category-form" id="form-crear-categoria">
+                                <!-- Estado -->
+                                <div class="form-section">
+                                    <label class="form-label">Estado:</label>
+                                    <div class="status-toggle">
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" id="categoria-activa" checked>
+                                            <span class="toggle-slider"></span>
+                                            <span class="toggle-label">Activo</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <!-- Imagen de portada -->
+                                <div class="form-section">
+                                    <label class="form-label">Imagen de portada</label>
+                                    <div class="image-upload-section">
+                                        <div class="image-info">
+                                            <p>Resolución recomendada: 768 x 210 píxeles</p>
+                                        </div>
+                                        
+                                        <div class="image-upload-area" id="categoria-image-upload">
+                                            <div class="upload-placeholder">
+                                                <span class="material-symbols-rounded">image</span>
+                                                <p>Selecciona o arrastra imagen</p>
+                                                <p class="upload-size">Tamaño máximo: 10 MB</p>
+                                            </div>
+                                            <input type="file" id="categoria-imagen" accept="image/*" style="display: none;">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Campos del formulario -->
+                                <div class="form-fields">
+                                    <div class="form-group">
+                                        <input type="text" class="form-input" placeholder="Nombre" id="categoria-nombre" required>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <input type="text" class="form-input" placeholder="Nombre interno" id="categoria-nombre-interno">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <input type="text" class="form-input" placeholder="Descripción" id="categoria-descripcion">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <select class="form-dropdown" id="categoria-tags">
+                                            <option value="">Tags</option>
+                                            <option value="principal">Principal</option>
+                                            <option value="promocion">Promoción</option>
+                                            <option value="bebida">Bebida</option>
+                                            <option value="postre">Postre</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <!-- Disponibilidad -->
+                                <div class="form-section">
+                                    <label class="form-label">Disponibilidad</label>
+                                    <p class="form-subtitle">Configurá en qué modalidad de entrega estará disponible.</p>
+                                    
+                                    <div class="form-group">
+                                        <select class="form-dropdown" id="categoria-disponibilidad">
+                                            <option value="delivery-takeaway">Delivery, Take Away</option>
+                                            <option value="delivery">Delivery</option>
+                                            <option value="takeaway">Take Away</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <p class="form-subtitle">Configurá la disponibilidad por días y horarios.</p>
+                                    
+                                    <div class="availability-options">
+                                        <label class="availability-option">
+                                            <input type="radio" name="disponibilidad-tipo" value="siempre" checked>
+                                            <span class="radio-custom"></span>
+                                            <span class="option-text">Siempre disponible</span>
+                                        </label>
+                                        
+                                        <label class="availability-option">
+                                            <input type="radio" name="disponibilidad-tipo" value="horarios">
+                                            <span class="radio-custom"></span>
+                                            <span class="option-text">Por horarios</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <!-- Botones -->
+                                <div class="modal-actions">
+                                    <button type="button" class="btn btn-cancel" onclick="cerrarModalCrearCategoria()">Cancelar</button>
+                                    <button type="submit" class="btn btn-create">Guardar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+                  
+                  <!-- Cajas Section -->
+                  <section id="cajas" class="content-section">
+                      <div class="cajas-header">
+                          <h2>4 Cajas</h2>
+                          <div class="cajas-actions">
+                              <button class="btn btn-danger btn-text">Eliminar</button>
+                              <button class="btn btn-secondary btn-text">Editar</button>
+                              <button class="btn btn-primary">Nueva caja</button>
+                          </div>
+                      </div>
+                      
+                      <div class="cajas-tabs">
+                          <button class="caja-tab active" data-caja="emanuel">Emanuel</button>
+                          <button class="caja-tab" data-caja="alejo">Alejo</button>
+                          <button class="caja-tab" data-caja="martina">Martina</button>
+                          <button class="caja-tab" data-caja="nahuel">Nahuel</button>
+                      </div>
+                      
+                      <div class="cajas-content">
+                          <div class="caja-panel active" data-caja="emanuel">
+                              <div class="cajas-grid">
+                                  <!-- Panel de Arqueo -->
+                                  <div class="arqueo-card">
+                                      <div class="card-header">
+                                          <h3>Arqueo en curso</h3>
+                                          <div class="card-menu">
+                                              <span class="material-symbols-rounded">more_vert</span>
+                                          </div>
+                                      </div>
+                                      <div class="card-subtitle">
+                                          Iniciado por Emanuel 27/08 10:59:57 a. m.
+                                      </div>
+                                      <div class="arqueo-details">
+                                          <div class="arqueo-section">
+                                              <h4>Efectivo</h4>
+                                              <div class="arqueo-item">
+                                                  <span>1 Venta:</span>
+                                                  <span class="amount">$ 9.000</span>
+                                              </div>
+                                              <div class="arqueo-item">
+                                                  <span>0 Ingresos:</span>
+                                                  <span class="amount">$ 0</span>
+                                              </div>
+                                              <div class="arqueo-item">
+                                                  <span>0 Egresos:</span>
+                                                  <span class="amount">$ 0</span>
+                                              </div>
+                                          </div>
+                                          <div class="arqueo-totals">
+                                              <div class="total-item">
+                                                  <span>Total:</span>
+                                                  <span class="amount total">$ 9.000</span>
+                                              </div>
+                                              <div class="total-item">
+                                                  <span>Total consolidado:</span>
+                                                  <span class="amount total">$ 9.000</span>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="card-actions">
+                                          <button class="btn btn-danger btn-full">Cerrar arqueo</button>
+                                      </div>
+                                  </div>
+                                  
+                                  <!-- Panel de Movimientos -->
+                                  <div class="movimientos-card">
+                                      <div class="card-header">
+                                          <h3>↑ 1 Movimiento</h3>
+                                          <button class="btn btn-primary btn-sm">Nuevo</button>
+                                      </div>
+                                      <div class="card-content">
+                                          <a href="#" class="historial-link">Historial de arqueos</a>
+                                          <div class="movimiento-item">
+                                              <div class="movimiento-icon">
+                                                  <span class="material-symbols-rounded">account_balance_wallet</span>
+                                              </div>
+                                              <div class="movimiento-details">
+                                                  <div class="movimiento-title">Egreso de dinero</div>
+                                                  <div class="movimiento-subtitle">Con Efectivo</div>
+                                                  <div class="movimiento-status">Eliminado 27/08/25 11:02</div>
+                                                  <div class="movimiento-category">Verduleria</div>
+                                                  <div class="movimiento-amount negative">-$10.000</div>
+                                                  <div class="movimiento-time">11:01 a. m.</div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          
+                          <!-- Otros paneles de caja (inicialmente ocultos) -->
+                          <div class="caja-panel" data-caja="alejo">
+                              <div class="cajas-grid">
+                                  <div class="arqueo-card">
+                                      <div class="card-header">
+                                          <h3>Arqueo en curso</h3>
+                                          <div class="card-menu">
+                                              <span class="material-symbols-rounded">more_vert</span>
+                                          </div>
+                                      </div>
+                                      <div class="card-subtitle">
+                                          Iniciado por Alejo 27/08 09:30:00 a. m.
+                                      </div>
+                                      <div class="arqueo-details">
+                                          <div class="arqueo-section">
+                                              <h4>Efectivo</h4>
+                                              <div class="arqueo-item">
+                                                  <span>0 Ventas:</span>
+                                                  <span class="amount">$ 0</span>
+                                              </div>
+                                              <div class="arqueo-item">
+                                                  <span>0 Ingresos:</span>
+                                                  <span class="amount">$ 0</span>
+                                              </div>
+                                              <div class="arqueo-item">
+                                                  <span>0 Egresos:</span>
+                                                  <span class="amount">$ 0</span>
+                                              </div>
+                                          </div>
+                                          <div class="arqueo-totals">
+                                              <div class="total-item">
+                                                  <span>Total:</span>
+                                                  <span class="amount total">$ 0</span>
+                                              </div>
+                                              <div class="total-item">
+                                                  <span>Total consolidado:</span>
+                                                  <span class="amount total">$ 0</span>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="card-actions">
+                                          <button class="btn btn-danger btn-full">Cerrar arqueo</button>
+                                      </div>
+                                  </div>
+                                  
+                                  <div class="movimientos-card">
+                                      <div class="card-header">
+                                          <h3>↑ 0 Movimientos</h3>
+                                          <button class="btn btn-primary btn-sm">Nuevo</button>
+                                      </div>
+                                      <div class="card-content">
+                                          <a href="#" class="historial-link">Historial de arqueos</a>
+                                          <div class="no-movimientos">
+                                              <p>No hay movimientos registrados</p>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          
+                          <div class="caja-panel" data-caja="martina">
+                              <div class="cajas-grid">
+                                  <div class="arqueo-card">
+                                      <div class="card-header">
+                                          <h3>Arqueo en curso</h3>
+                                          <div class="card-menu">
+                                              <span class="material-symbols-rounded">more_vert</span>
+                                          </div>
+                                      </div>
+                                      <div class="card-subtitle">
+                                          Iniciado por Martina 27/08 08:15:00 a. m.
+                                      </div>
+                                      <div class="arqueo-details">
+                                          <div class="arqueo-section">
+                                              <h4>Efectivo</h4>
+                                              <div class="arqueo-item">
+                                                  <span>0 Ventas:</span>
+                                                  <span class="amount">$ 0</span>
+                                              </div>
+                                              <div class="arqueo-item">
+                                                  <span>0 Ingresos:</span>
+                                                  <span class="amount">$ 0</span>
+                                              </div>
+                                              <div class="arqueo-item">
+                                                  <span>0 Egresos:</span>
+                                                  <span class="amount">$ 0</span>
+                                              </div>
+                                          </div>
+                                          <div class="arqueo-totals">
+                                              <div class="total-item">
+                                                  <span>Total:</span>
+                                                  <span class="amount total">$ 0</span>
+                                              </div>
+                                              <div class="total-item">
+                                                  <span>Total consolidado:</span>
+                                                  <span class="amount total">$ 0</span>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="card-actions">
+                                          <button class="btn btn-danger btn-full">Cerrar arqueo</button>
+                                      </div>
+                                  </div>
+                                  
+                                  <div class="movimientos-card">
+                                      <div class="card-header">
+                                          <h3>↑ 0 Movimientos</h3>
+                                          <button class="btn btn-primary btn-sm">Nuevo</button>
+                                      </div>
+                                      <div class="card-content">
+                                          <a href="#" class="historial-link">Historial de arqueos</a>
+                                          <div class="no-movimientos">
+                                              <p>No hay movimientos registrados</p>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          
+                          <div class="caja-panel" data-caja="nahuel">
+                              <div class="cajas-grid">
+                                  <div class="arqueo-card">
+                                      <div class="card-header">
+                                          <h3>Arqueo en curso</h3>
+                                          <div class="card-menu">
+                                              <span class="material-symbols-rounded">more_vert</span>
+                                          </div>
+                                      </div>
+                                      <div class="card-subtitle">
+                                          Iniciado por Nahuel 27/08 07:45:00 a. m.
+                                      </div>
+                                      <div class="arqueo-details">
+                                          <div class="arqueo-section">
+                                              <h4>Efectivo</h4>
+                                              <div class="arqueo-item">
+                                                  <span>0 Ventas:</span>
+                                                  <span class="amount">$ 0</span>
+                                              </div>
+                                              <div class="arqueo-item">
+                                                  <span>0 Ingresos:</span>
+                                                  <span class="amount">$ 0</span>
+                                              </div>
+                                              <div class="arqueo-item">
+                                                  <span>0 Egresos:</span>
+                                                  <span class="amount">$ 0</span>
+                                              </div>
+                                          </div>
+                                          <div class="arqueo-totals">
+                                              <div class="total-item">
+                                                  <span>Total:</span>
+                                                  <span class="amount total">$ 0</span>
+                                              </div>
+                                              <div class="total-item">
+                                                  <span>Total consolidado:</span>
+                                                  <span class="amount total">$ 0</span>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="card-actions">
+                                          <button class="btn btn-danger btn-full">Cerrar arqueo</button>
+                                      </div>
+                                  </div>
+                                  
+                                  <div class="movimientos-card">
+                                      <div class="card-header">
+                                          <h3>↑ 0 Movimientos</h3>
+                                          <button class="btn btn-primary btn-sm">Nuevo</button>
+                                      </div>
+                                      <div class="card-content">
+                                          <a href="#" class="historial-link">Historial de arqueos</a>
+                                          <div class="no-movimientos">
+                                              <p>No hay movimientos registrados</p>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </section>
+                  
+                  <!-- Reportes Section -->
+                  <section id="reportes" class="content-section">
+                      <div class="reportes-filters">
+                          <div class="filter-row">
+                              <div class="filter-group">
+                                  <label>Fecha creación</label>
+                                  <div class="date-input">
+                                      <input type="text" value="27/8/2025 - 27/8/2025" readonly>
+                                      <span class="material-symbols-rounded">calendar_today</span>
+                                  </div>
+                              </div>
+                              <div class="filter-group">
+                                  <label>Turno</label>
+                                  <select>
+                                      <option>Turno</option>
+                                  </select>
+                              </div>
+                              <div class="filter-group">
+                                  <label>Modalidad</label>
+                                  <select>
+                                      <option>Delivery, Take Away, Salón</option>
+                                  </select>
+                              </div>
+                              <div class="filter-group">
+                                  <label>Estado</label>
+                                  <select>
+                                      <option>Pendiente, En preparación, Entre...</option>
+                                  </select>
+                              </div>
+                              <div class="filter-group">
+                                  <label>Método de pago</label>
+                                  <select>
+                                      <option></option>
+                                  </select>
+                              </div>
+                              <div class="filter-group">
+                                  <label class="checkbox-label">
+                                      <input type="checkbox">
+                                      <span class="checkmark"></span>
+                                      Pedidos programados
+                                  </label>
+                              </div>
+                          </div>
+                      </div>
+                      
+                      <div class="reportes-tabs">
+                          <button class="reporte-tab active" data-reporte="facturacion">Facturación</button>
+                          <button class="reporte-tab" data-reporte="ventas">Ventas</button>
+                      </div>
+                      
+                      <div class="reportes-content">
+                          <div class="reporte-panel active" data-reporte="facturacion">
+                              <div class="resumen-cards">
+                                  <div class="resumen-card">
+                                      <div class="resumen-circle">
+                                          <div class="circle-progress" style="--progress: 100%">
+                                              <span class="progress-number">9000</span>
+                                          </div>
+                                      </div>
+                                      <div class="resumen-details">
+                                          <h3>Facturación total</h3>
+                                          <p>9000 Efectivo 100%</p>
+                                      </div>
+                                  </div>
+                                  
+                                  <div class="resumen-card">
+                                      <div class="resumen-circle">
+                                          <div class="circle-progress" style="--progress: 100%">
+                                              <span class="progress-number">1</span>
+                                          </div>
+                                      </div>
+                                      <div class="resumen-details">
+                                          <h3>Pedidos totales</h3>
+                                          <p>1 Delivery 100%</p>
+                                      </div>
+                                  </div>
+                              </div>
+                              
+                              <div class="delivery-report">
+                                  <div class="report-header">
+                                      <h3>Delivery</h3>
+                                      <button class="btn btn-secondary">Exportar</button>
+                                  </div>
+                                  
+                                  <div class="report-table">
+                                      <table>
+                                          <thead>
+                                              <tr>
+                                                  <th>Pago</th>
+                                                  <th>Ticket prom.</th>
+                                                  <th>Productos + Extras</th>
+                                                  <th>Delivery</th>
+                                                  <th>Propinas</th>
+                                                  <th>Facturado</th>
+                                              </tr>
+                                          </thead>
+                                          <tbody>
+                                              <tr>
+                                                  <td>Efectivo</td>
+                                                  <td>$ 9.000</td>
+                                                  <td>$ 9.000</td>
+                                                  <td>$ 0</td>
+                                                  <td>$ 0</td>
+                                                  <td>$ 9.000</td>
+                                              </tr>
+                                              <tr class="total-row">
+                                                  <td><strong>TOTAL</strong></td>
+                                                  <td><strong>$ 9.000</strong></td>
+                                                  <td><strong>$ 9.000</strong></td>
+                                                  <td><strong>$ 0</strong></td>
+                                                  <td><strong>$ 0</strong></td>
+                                                  <td><strong>$ 9.000</strong></td>
+                                              </tr>
+                                          </tbody>
+                                      </table>
+                                  </div>
+                              </div>
+                          </div>
+                          
+                          <div class="reporte-panel" data-reporte="ventas">
+                              <div class="ventas-content">
+                                  <h3>Reporte de Ventas</h3>
+                                  <p>Aquí se mostrarán los reportes detallados de ventas por período.</p>
+                              </div>
+                          </div>
+                      </div>
+                  </section>
+                  
+                  <!-- Descuentos Section -->
+                  <section id="descuentos" class="content-section">
+                      <div class="descuentos-grid">
+                          <!-- Descuentos en pedidos -->
+                          <div class="descuento-card">
+                              <div class="card-header">
+                                  <h3>Descuentos en pedidos</h3>
+                                  <button class="btn btn-primary">Crear</button>
+                              </div>
+                              <p class="card-description">Ofrece descuentos en delivery, take away o salón.</p>
+                              <div class="descuentos-table">
+                                  <table>
+                                      <thead>
+                                          <tr>
+                                              <th>Descuento</th>
+                                              <th>Modalidad</th>
+                                              <th>Activo</th>
+                                              <th>Acciones</th>
+                                          </tr>
+                                      </thead>
+                                      <tbody>
+                                          <tr>
+                                              <td>10%</td>
+                                              <td>Take Away</td>
+                                              <td>
+                                                  <label class="toggle-switch">
+                                                      <input type="checkbox">
+                                                      <span class="toggle-slider"></span>
+                                                  </label>
+                                              </td>
+                                              <td>
+                                                  <span class="material-symbols-rounded">more_vert</span>
+                                              </td>
+                                          </tr>
+                                      </tbody>
+                                  </table>
+                              </div>
+                          </div>
+                          
+                          <!-- Descuentos en productos -->
+                          <div class="descuento-card">
+                              <div class="card-header">
+                                  <h3>Descuentos en productos</h3>
+                                  <button class="btn btn-primary">Crear</button>
+                              </div>
+                              <p class="card-description">Ofrece descuentos en productos por días, horarios y métodos de pago.</p>
+                              <div class="no-descuentos">
+                                  <p>No hay descuentos configurados</p>
+                              </div>
+                          </div>
+                          
+                          <!-- Códigos promocionales -->
+                          <div class="descuento-card">
+                              <div class="card-header">
+                                  <h3>Códigos promocionales</h3>
+                                  <button class="btn btn-primary">Crear</button>
+                              </div>
+                              <p class="card-description">Fidelizá tus clientes ofreciendo códigos promociones.</p>
+                              <div class="codigos-table">
+                                  <table>
+                                      <thead>
+                                          <tr>
+                                              <th>Código</th>
+                                              <th>Usos restantes</th>
+                                              <th>Activo</th>
+                                              <th>Acciones</th>
+                                          </tr>
+                                      </thead>
+                                      <tbody>
+                                          <tr>
+                                              <td>mmmcristian</td>
+                                              <td>1</td>
+                                              <td>
+                                                  <label class="toggle-switch">
+                                                      <input type="checkbox" checked>
+                                                      <span class="toggle-slider active"></span>
+                                                  </label>
+                                              </td>
+                                              <td>
+                                                  <span class="material-symbols-rounded">more_vert</span>
+                                              </td>
+                                          </tr>
+                                          <tr>
+                                              <td>MMMDESC</td>
+                                              <td>1</td>
+                                              <td>
+                                                  <label class="toggle-switch">
+                                                      <input type="checkbox" checked>
+                                                      <span class="toggle-slider active"></span>
+                                                  </label>
+                                              </td>
+                                              <td>
+                                                  <span class="material-symbols-rounded">more_vert</span>
+                                              </td>
+                                          </tr>
+                                          <tr>
+                                              <td>miaayas</td>
+                                              <td>20</td>
+                                              <td>
+                                                  <label class="toggle-switch">
+                                                      <input type="checkbox" checked>
+                                                      <span class="toggle-slider active"></span>
+                                                  </label>
+                                              </td>
+                                              <td>
+                                                  <span class="material-symbols-rounded">more_vert</span>
+                                              </td>
+                                          </tr>
+                                      </tbody>
+                                  </table>
+                              </div>
+                          </div>
+                      </div>
+                  </section>
+                  
+                  <!-- Delivery Section -->
+                  <section id="delivery" class="content-section">
+                      <div class="delivery-header">
+                          <h2>Gestión de Delivery</h2>
+                          <p>Configura y gestiona tu servicio de delivery</p>
+                      </div>
+                      <div class="delivery-content">
+                          <div class="delivery-stats">
+                              <div class="stat-card">
+                                  <h3>Zonas Activas</h3>
+                                  <p class="stat-number">5</p>
+                              </div>
+                              <div class="stat-card">
+                                  <h3>Repartidores</h3>
+                                  <p class="stat-number">3</p>
+                              </div>
+                              <div class="stat-card">
+                                  <h3>Tiempo Promedio</h3>
+                                  <p class="stat-number">25 min</p>
+                              </div>
+                          </div>
+                      </div>
+                  </section>
+                  
+                  <!-- Marketing Section -->
+                  <section id="marketing" class="content-section">
+                      <div class="marketing-header">
+                          <h2>Marketing Digital</h2>
+                          <p>Estrategias y campañas de marketing</p>
+                      </div>
+                      <div class="marketing-content">
+                          <div class="marketing-stats">
+                              <div class="stat-card">
+                                  <h3>Campañas Activas</h3>
+                                  <p class="stat-number">2</p>
+                              </div>
+                              <div class="stat-card">
+                                  <h3>Clientes Alcanzados</h3>
+                                  <p class="stat-number">1,250</p>
+                              </div>
+                              <div class="stat-card">
+                                  <h3>ROI Promedio</h3>
+                                  <p class="stat-number">320%</p>
+                              </div>
+                          </div>
+                      </div>
+                  </section>
+                  
+                  <!-- Logística Section -->
+                  <section id="logistica" class="content-section">
+                      <div class="logistica-header">
+                          <h2>Gestión Logística</h2>
+                          <p>Control de inventario y logística</p>
+                      </div>
+                      <div class="logistica-content">
+                          <div class="logistica-stats">
+                              <div class="stat-card">
+                                  <h3>Stock Bajo</h3>
+                                  <p class="stat-number">8</p>
+                              </div>
+                              <div class="stat-card">
+                                  <h3>Proveedores</h3>
+                                  <p class="stat-number">12</p>
+                              </div>
+                              <div class="stat-card">
+                                  <h3>Órdenes Pendientes</h3>
+                                  <p class="stat-number">5</p>
+                              </div>
+                          </div>
+                      </div>
+                  </section>
+                  
+                  <!-- Pedidos Section -->
+                  <section id="pedidos" class="content-section">
+                     <div class="orders-header">
+                         <h2>Gestión de Pedidos</h2>
+                         <p>Administra y da seguimiento a todos los pedidos</p>
+                     </div>
+                     
+                     <div class="orders-filters">
+                         <div class="filter-group">
+                             <label>Estado:</label>
+                             <select id="order-status-filter">
+                                 <option value="">Todos los estados</option>
+                                 <option value="pendiente">Pendiente</option>
+                                 <option value="confirmado">Confirmado</option>
+                                 <option value="en_preparacion">En Preparación</option>
+                                 <option value="listo">Listo</option>
+                                 <option value="en_camino">En Camino</option>
+                                 <option value="entregado">Entregado</option>
+                                 <option value="cancelado">Cancelado</option>
+                             </select>
+                         </div>
+                         <div class="filter-group">
+                             <label>Tipo de entrega:</label>
+                             <select id="delivery-type-filter">
+                                 <option value="">Todos los tipos</option>
+                                 <option value="delivery">Delivery</option>
+                                 <option value="retiro">Retiro</option>
+                             </select>
+                         </div>
+                         <div class="filter-group">
+                             <label>Fecha:</label>
+                             <input type="date" id="order-date-filter">
+                         </div>
+                     </div>
+                     
+                     <div class="orders-list" id="orders-list">
+                         <!-- Los pedidos se cargarán dinámicamente aquí -->
+                     </div>
+                 </section>
+                 
+                 <!-- Other sections will be added here -->
+             </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

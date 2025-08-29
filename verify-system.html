@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificación del Sistema MMM</title>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+        }
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .status-card {
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        .status-card:hover {
+            transform: translateY(-5px);
+        }
+        .status-card.success {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+        .status-card.loading {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            color: white;
+        }
+        .status-card.error {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+        }
+        .status-card h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.2rem;
+        }
+        .status-card p {
+            margin: 0;
+            font-size: 0.9rem;
+        }
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 20px auto;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        .summary {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border-left: 5px solid #667eea;
+        }
+        .summary h3 {
+            color: #333;
+            margin-top: 0;
+        }
+        .links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .link-card {
+            background: #667eea;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s ease;
+            display: block;
+        }
+        .link-card:hover {
+            background: #764ba2;
+            transform: translateY(-3px);
+            color: white;
+            text-decoration: none;
+        }
+        .count {
+            font-size: 2rem;
+            font-weight: bold;
+            display: block;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Verificación del Sistema MMM</h1>
+        
+        <div class="status-grid">
+            <div id="connection-status" class="status-card loading">
+                <h3>📡 Conexión Supabase</h3>
+                <p>Verificando...</p>
+            </div>
+            
+            <div id="restaurant-status" class="status-card loading">
+                <h3>🏪 Restaurante</h3>
+                <p>Cargando datos...</p>
+            </div>
+            
+            <div id="categories-status" class="status-card loading">
+                <h3>📋 Categorías</h3>
+                <p>Contando registros...</p>
+            </div>
+            
+            <div id="products-status" class="status-card loading">
+                <h3>🍕 Productos</h3>
+                <p>Contando registros...</p>
+            </div>
+            
+            <div id="orders-status" class="status-card loading">
+                <h3>📦 Pedidos</h3>
+                <p>Contando registros...</p>
+            </div>
+            
+            <div id="clients-status" class="status-card loading">
+                <h3>👥 Clientes</h3>
+                <p>Contando registros...</p>
+            </div>
+        </div>
+        
+        <button class="btn" onclick="runFullVerification()">🔄 Verificar Todo el Sistema</button>
+        
+        <div class="summary">
+            <h3>📊 Resumen del Sistema</h3>
+            <div id="summary-content">
+                <p>Haz clic en "Verificar Todo el Sistema" para obtener un resumen completo.</p>
+            </div>
+        </div>
+        
+        <div class="links">
+            <a href="index.html" class="link-card">
+                <div>🎛️ Panel de Administración</div>
+            </a>
+            <a href="cliente.html" class="link-card">
+                <div>🍕 Menú Digital</div>
+            </a>
+            <a href="test-simple.html" class="link-card">
+                <div>🧪 Test Técnico</div>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        let systemData = {};
+
+        async function updateStatus(elementId, status, title, content, count = null) {
+            const element = document.getElementById(elementId);
+            element.className = `status-card ${status}`;
+            element.innerHTML = `
+                <h3>${title}</h3>
+                ${count !== null ? `<span class="count">${count}</span>` : ''}
+                <p>${content}</p>
+            `;
+        }
+
+        async function checkConnection() {
+            try {
+                const { data, error } = await supabase
+                    .from('restaurantes')
+                    .select('count')
+                    .limit(1);
+                
+                if (error) throw error;
+                
+                await updateStatus('connection-status', 'success', '📡 Conexión Supabase', 'Conectado exitosamente');
+                return true;
+            } catch (error) {
+                await updateStatus('connection-status', 'error', '📡 Conexión Supabase', `Error: ${error.message}`);
+                return false;
+            }
+        }
+
+        async function checkRestaurant() {
+            try {
+                const { data, error } = await supabase
+                    .from('restaurantes')
+                    .select('*');
+                
+                if (error) throw error;
+                
+                systemData.restaurant = data[0] || null;
+                const count = data.length;
+                const name = data[0]?.nombre || 'Sin nombre';
+                
+                await updateStatus('restaurant-status', 'success', '🏪 Restaurante', name, count);
+                return true;
+            } catch (error) {
+                await updateStatus('restaurant-status', 'error', '🏪 Restaurante', `Error: ${error.message}`);
+                return false;
+            }
+        }
+
+        async function checkCategories() {
+            try {
+                const { data, error } = await supabase
+                    .from('categorias_menu')
+                    .select('*');
+                
+                if (error) throw error;
+                
+                systemData.categories = data;
+                const count = data.length;
+                
+                await updateStatus('categories-status', 'success', '📋 Categorías', `${count} categorías activas`, count);
+                return true;
+            } catch (error) {
+                await updateStatus('categories-status', 'error', '📋 Categorías', `Error: ${error.message}`);
+                return false;
+            }
+        }
+
+        async function checkProducts() {
+            try {
+                const { data, error } = await supabase
+                    .from('productos')
+                    .select('*');
+                
+                if (error) throw error;
+                
+                systemData.products = data;
+                const count = data.length;
+                const activeCount = data.filter(p => p.activo).length;
+                
+                await updateStatus('products-status', 'success', '🍕 Productos', `${activeCount}/${count} productos activos`, count);
+                return true;
+            } catch (error) {
+                await updateStatus('products-status', 'error', '🍕 Productos', `Error: ${error.message}`);
+                return false;
+            }
+        }
+
+        async function checkOrders() {
+            try {
+                const { data, error } = await supabase
+                    .from('pedidos')
+                    .select('*');
+                
+                if (error) throw error;
+                
+                systemData.orders = data;
+                const count = data.length;
+                
+                await updateStatus('orders-status', 'success', '📦 Pedidos', `${count} pedidos en sistema`, count);
+                return true;
+            } catch (error) {
+                await updateStatus('orders-status', 'error', '📦 Pedidos', `Error: ${error.message}`);
+                return false;
+            }
+        }
+
+        async function checkClients() {
+            try {
+                const { data, error } = await supabase
+                    .from('clientes')
+                    .select('*');
+                
+                if (error) throw error;
+                
+                systemData.clients = data;
+                const count = data.length;
+                
+                await updateStatus('clients-status', 'success', '👥 Clientes', `${count} clientes registrados`, count);
+                return true;
+            } catch (error) {
+                await updateStatus('clients-status', 'error', '👥 Clientes', `Error: ${error.message}`);
+                return false;
+            }
+        }
+
+        async function runFullVerification() {
+            // Reset all to loading
+            const statusElements = ['connection-status', 'restaurant-status', 'categories-status', 'products-status', 'orders-status', 'clients-status'];
+            statusElements.forEach(id => {
+                const element = document.getElementById(id);
+                element.className = 'status-card loading';
+            });
+
+            const results = {};
+            
+            results.connection = await checkConnection();
+            if (results.connection) {
+                results.restaurant = await checkRestaurant();
+                results.categories = await checkCategories();
+                results.products = await checkProducts();
+                results.orders = await checkOrders();
+                results.clients = await checkClients();
+            }
+
+            // Update summary
+            updateSummary(results);
+        }
+
+        function updateSummary(results) {
+            const summaryElement = document.getElementById('summary-content');
+            const allPassed = Object.values(results).every(r => r === true);
+            
+            let summaryHTML = `
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 15px;">
+                    <div><strong>Restaurante:</strong> ${systemData.restaurant?.nombre || 'N/A'}</div>
+                    <div><strong>Categorías:</strong> ${systemData.categories?.length || 0}</div>
+                    <div><strong>Productos:</strong> ${systemData.products?.length || 0}</div>
+                    <div><strong>Pedidos:</strong> ${systemData.orders?.length || 0}</div>
+                    <div><strong>Clientes:</strong> ${systemData.clients?.length || 0}</div>
+                </div>
+            `;
+            
+            if (allPassed) {
+                summaryHTML += `
+                    <div style="background: #d4edda; color: #155724; padding: 15px; border-radius: 8px; margin: 15px 0;">
+                        <strong>✅ Sistema completamente funcional</strong><br>
+                        Todas las conexiones y datos están funcionando correctamente.
+                    </div>
+                `;
+            } else {
+                summaryHTML += `
+                    <div style="background: #f8d7da; color: #721c24; padding: 15px; border-radius: 8px; margin: 15px 0;">
+                        <strong>⚠️ Hay problemas en el sistema</strong><br>
+                        Revisa los errores mostrados arriba y verifica la configuración de Supabase.
+                    </div>
+                `;
+            }
+            
+            summaryElement.innerHTML = summaryHTML;
+        }
+
+        // Auto-run verification on load
+        window.addEventListener('load', () => {
+            setTimeout(runFullVerification, 1000);
+        });
+    </script>
+</body>
+</html>

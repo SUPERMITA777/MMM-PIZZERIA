@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Productos - MMM</title>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .test-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+        }
+        .btn {
+            background: #ff6b35;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Debug Tabla Productos</h1>
+        
+        <div class="test-section">
+            <h3>1. Verificar Estructura de la Tabla</h3>
+            <button class="btn" onclick="checkTableStructure()">Ver Columnas</button>
+            <div id="structure-result" class="result"></div>
+        </div>
+        
+        <div class="test-section">
+            <h3>2. Consulta Simple</h3>
+            <button class="btn" onclick="simpleQuery()">Consulta Básica</button>
+            <div id="simple-result" class="result"></div>
+        </div>
+        
+        <div class="test-section">
+            <h3>3. Consulta con Límite</h3>
+            <button class="btn" onclick="limitedQuery()">Primeros 5 Registros</button>
+            <div id="limited-result" class="result"></div>
+        </div>
+        
+        <div class="test-section">
+            <h3>4. Probar Filtros</h3>
+            <button class="btn" onclick="testFilters()">Probar Diferentes Filtros</button>
+            <div id="filters-result" class="result"></div>
+        </div>
+    </div>
+
+    <script>
+        // Configuración de Supabase
+        const SUPABASE_URL = 'https://cwulvffuheotxzpocxla.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN3dWx2ZmZ1aGVvdHh6cG9jeGxhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYzMDM0NjAsImV4cCI6MjA3MTg3OTQ2MH0.OQkNnoYz-inY9Chtr42PU6w9S9sS90gwmOVmz243Log';
+        
+        // Inicializar cliente de Supabase
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        
+        function showResult(elementId, data, isError = false) {
+            const element = document.getElementById(elementId);
+            element.className = isError ? 'result error' : 'result success';
+            element.textContent = JSON.stringify(data, null, 2);
+        }
+
+        async function checkTableStructure() {
+            try {
+                // Intentar obtener un registro para ver la estructura
+                const { data, error } = await supabase
+                    .from('productos')
+                    .select('*')
+                    .limit(1);
+                
+                if (error) {
+                    showResult('structure-result', {
+                        error: error.message,
+                        details: error
+                    }, true);
+                } else {
+                    const columns = data.length > 0 ? Object.keys(data[0]) : [];
+                    showResult('structure-result', {
+                        status: 'success',
+                        totalRecords: 'Necesita consulta adicional',
+                        sampleRecord: data[0] || null,
+                        columns: columns,
+                        columnCount: columns.length
+                    });
+                }
+            } catch (error) {
+                showResult('structure-result', {
+                    error: error.message,
+                    stack: error.stack
+                }, true);
+            }
+        }
+
+        async function simpleQuery() {
+            try {
+                const { data, error, count } = await supabase
+                    .from('productos')
+                    .select('*', { count: 'exact' });
+                
+                if (error) {
+                    showResult('simple-result', {
+                        error: error.message,
+                        details: error
+                    }, true);
+                } else {
+                    showResult('simple-result', {
+                        status: 'success',
+                        totalRecords: count,
+                        recordsReturned: data.length,
+                        data: data
+                    });
+                }
+            } catch (error) {
+                showResult('simple-result', {
+                    error: error.message,
+                    stack: error.stack
+                }, true);
+            }
+        }
+
+        async function limitedQuery() {
+            try {
+                const { data, error } = await supabase
+                    .from('productos')
+                    .select('*')
+                    .limit(5);
+                
+                if (error) {
+                    showResult('limited-result', {
+                        error: error.message,
+                        details: error
+                    }, true);
+                } else {
+                    showResult('limited-result', {
+                        status: 'success',
+                        recordsReturned: data.length,
+                        data: data
+                    });
+                }
+            } catch (error) {
+                showResult('limited-result', {
+                    error: error.message,
+                    stack: error.stack
+                }, true);
+            }
+        }
+
+        async function testFilters() {
+            const tests = [];
+            
+            // Test 1: Sin filtros
+            try {
+                const { data: allData, error: allError } = await supabase
+                    .from('productos')
+                    .select('*');
+                
+                tests.push({
+                    test: 'Sin filtros',
+                    success: !allError,
+                    error: allError?.message,
+                    count: allData?.length || 0
+                });
+            } catch (error) {
+                tests.push({
+                    test: 'Sin filtros',
+                    success: false,
+                    error: error.message
+                });
+            }
+
+            // Test 2: Con filtro activo = true
+            try {
+                const { data: activeData, error: activeError } = await supabase
+                    .from('productos')
+                    .select('*')
+                    .eq('activo', true);
+                
+                tests.push({
+                    test: 'Con activo = true',
+                    success: !activeError,
+                    error: activeError?.message,
+                    count: activeData?.length || 0
+                });
+            } catch (error) {
+                tests.push({
+                    test: 'Con activo = true',
+                    success: false,
+                    error: error.message
+                });
+            }
+
+            // Test 3: Con orden por ID
+            try {
+                const { data: orderedData, error: orderedError } = await supabase
+                    .from('productos')
+                    .select('*')
+                    .order('id', { ascending: true });
+                
+                tests.push({
+                    test: 'Con orden por ID',
+                    success: !orderedError,
+                    error: orderedError?.message,
+                    count: orderedData?.length || 0
+                });
+            } catch (error) {
+                tests.push({
+                    test: 'Con orden por ID',
+                    success: false,
+                    error: error.message
+                });
+            }
+
+            showResult('filters-result', {
+                status: 'completed',
+                tests: tests
+            });
+        }
+
+        // Auto-ejecutar verificación de estructura
+        window.addEventListener('load', () => {
+            setTimeout(checkTableStructure, 1000);
+        });
+    </script>
+</body>
+</html>
